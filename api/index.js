@@ -40,10 +40,9 @@ bot.on('message', (msg) => {
                 r
             ]
         ).then((jres1)=>{
-            v = parseFloat(jres1[0])
-	    p = parseFloat(jres1[1])
+            console.log(jres1);
             
-            cls_model.classify([i, r, v, p]).then((jres2)=>{
+            cls_model.classify([parseFloat(s[0]), parseFloat(s[1]), parseFloat(jres1[0]), parseFloat(jres1[1])]).then((jres2)=>{
                 bot.sendMessage(
                         msg.chat.id,
                         `nilai v yang diprediksi adalah ${jres1[0]} volt`
@@ -56,13 +55,10 @@ bot.on('message', (msg) => {
                         msg.chat.id,
                         `KLASIFIKASI TEGANGAN ${jres2}`
                 );
-                
+                state = 0;
             })
         })
     }else{
-	    state = 0;
-    }
-}) 
         bot.sendMessage(
             msg.chat.id,
                 `Please click /start`
@@ -71,6 +67,17 @@ bot.on('message', (msg) => {
     }
 }) 
 
+// routers
+r.get('/predict/:i/:r', function(req, res, next) {    
+    model.predict(
+        [
+            parseFloat(req.params.i), // string to float
+            parseFloat(req.params.r)
+        ]
+    ).then((jres)=>{
+        res.json(jres);
+    })
+});
 
 //routers
 r.get('/classify/:i/:r', function(req, res, next) {
