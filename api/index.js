@@ -58,12 +58,16 @@ bot.on('message', (msg) => {
             }
         })
     }else{
+        bot.sendMessage(
+            msg.chat.id,
+                `Please click /start`
+            );
             state = 0;
     }
 }) 
 
 // routers
-r.get('/prediction/:i/:r', function(req, res, next) {    
+r.get('/predict/:i/:r', function(req, res, next) {    
     model.predict(
         [
             parseFloat(req.params.i), // string to float
