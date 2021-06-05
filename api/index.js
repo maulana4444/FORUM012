@@ -33,15 +33,13 @@ bot.on('message', (msg) => {
     if(state == 1){
         s = msg.text.split("|");
         i = parseFloat(s[0])
-	v = parseFloat(s[1])
+	r = parseFloat(s[1])
         model.predict(
             [
                 i, //string to float
                 r
             ]
         ).then((jres1)=>{
-		v = parseFloat(jres1[0])
-		p = parseFloat(jres1[1])
             console.log(jres1);
             
             cls_model.classify([parseFloat(s[0]), parseFloat(s[1]), parseFloat(jres1[0]), parseFloat(jres1[1])]).then((jres2)=>{
